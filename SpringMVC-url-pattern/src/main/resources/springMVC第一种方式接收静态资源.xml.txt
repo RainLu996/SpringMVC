@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 声明组件扫描器 -->
+    <context:component-scan base-package="com.lujun61.controller"/>
+
+    <!-- 配置视图解析器：帮助开发人员完善视图文件的路径 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀：视图文件的路径 -->
+        <property name="prefix" value="/WEB-INF/view/"/>
+
+        <!-- 后缀：视图文件的扩展名 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--
+        <mvc:default-servlet-handler/>与@RequestMapping注解有冲突，
+        需要加入<mvc:annotation-driven/>解决冲突。
+    -->
+    <mvc:annotation-driven/>
+
+    <!-- <url-pattern>/</url-pattern>使用“/”后，第一种在框架中处理静态资源的方式（仍然需要将请求转发给tomcat）：
+            加入<mvc:default-servlet-handler/>。
+                原理是：加入这个标签后，框架会自动创建控制器对象——【DefaultServletHttpRequestHandler】
+                DefaultServletHttpRequestHandler：可以将接收的请求转发给tomcat中自带的【DefaultServlet】
+     -->
+    <mvc:default-servlet-handler/>
+</beans>
