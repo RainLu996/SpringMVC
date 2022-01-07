@@ -276,6 +276,60 @@ public class MyController {
     public String doReturnObject(){
         return "此时返回值是String，表示数据，而不是视图！！！";
     }
+
+
+    /*----------------------------请求重定向和转发----------------------------------------------------------*/
+
+    /**
+     * 处理器方法返回ModelAndView，实现forward转发：
+     *      语法：mv.setViewName("forward:视图文件完整路径");
+     *      forward特点：不和视图解析器一同使用，就当项目中未配置视图解析器
+     *                  可以访问WEB-INF文件夹中的文件，因为forward之后的请求是服务器
+     *
+     *      作用：可以访问配置视图之后，无法访问的资源文件
+     */
+    @RequestMapping(value = "/doForward.do", method = RequestMethod.GET)
+    public ModelAndView doForward(String name, Integer age) {
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("name", name);
+        mv.addObject("age", age);
+
+        mv.setViewName("forward:/WEB-INF/view/doForward.jsp");
+        /* 配置视图之后，这样无法访问文件： mv.setViewName("doForward");*/
+
+        return mv;
+    }
+
+    /**
+     * 处理器方法返回ModelAndView，实现重定向redirect：
+     *      语法：mv.setViewName("redirect:视图文件完整路径");
+     *      redirect特点：不和视图解析器一同使用，就当项目中未配置视图解析器
+     *                  不可以访问WEB-INF文件夹中的文件，因为发起请求的都是浏览器！
+     *
+     *      框架对重定向的操作：
+     *          1、框架会把Model中的简单数据类型转为String来使用，作为doRedirect.jsp中的get请求参数使用
+     *          目的：在doRedirect.do与doRedirect.jsp两次的请求之间传递数据
+     *
+     *          2、在doRedirect.jsp页面可以使用参数集合对象 ${param} 来获取请求参数值
+     *
+     *              http://localhost:8080/myWeb/doRedirect.jsp?name=陆俊&age=18
+     *              EL表达式简化版：${param.name}、${param.age}
+     *              即：<%=request.getParameter("请求中的参数名")%>
+     */
+    @RequestMapping(value = "/doRedirect.do", method = RequestMethod.GET)
+    public ModelAndView doRedirect(String name, Integer age) {
+        ModelAndView mv = new ModelAndView();
+
+        //这里的request域数据在对doRedirect.jsp发起请求时，不再共享。因为是【重定向转发】
+        mv.addObject("name", name);
+        mv.addObject("age", age);
+
+        mv.setViewName("redirect:/doRedirect.jsp");
+        /* 配置视图之后，这样无法访问文件： mv.setViewName("doRedirect");*/
+
+        return mv;
+    }
 }
 
 

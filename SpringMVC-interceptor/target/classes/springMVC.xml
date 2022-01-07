@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 声明组件扫描器 -->
+    <context:component-scan base-package="com.lujun61.controller"/>
+
+    <!-- 配置视图解析器：帮助开发人员完善视图文件的路径 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀：视图文件的路径 -->
+        <property name="prefix" value="/WEB-INF/view/"/>
+
+        <!-- 后缀：视图文件的扩展名 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--
+        <mvc:default-servlet-handler/>与@RequestMapping注解有冲突，
+        需要加入<mvc:annotation-driven/>解决冲突。
+    -->
+    <mvc:annotation-driven/>
+
+    <!-- 声明拦截器：拦截器可以有0~N个 -->
+    <mvc:interceptors>
+        <!-- 声明第一个拦截器 -->
+        <mvc:interceptor>
+            <!-- 指定拦截器的请求地址URI
+                    path：就是URI地址，可以使用通配符 **（表示任意字符，文件或者多级目录和目录中的文件）
+             -->
+            <mvc:mapping path="/**"/>
+            <!-- 声明拦截器对象 -->
+            <bean class="com.lujun61.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+
+
+        <!-- 拦截器可以有多个；在框架中是以ArrayList集合的形式保存的 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.lujun61.interceptor.MyInterceptor2"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

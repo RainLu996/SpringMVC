@@ -212,6 +212,36 @@
                 <td><input type="button" id="returnStringData" value="返回值是String，但此时表示【数据】"></td>
             </tr>
         </table>
+
+
+
+                                <%--请求重定向和转发--%>
+        <form action="lujun61/doForward.do" method="get">
+            <table>
+                <tr>
+                    <td>姓名：<input type="text" name="name"> </td>
+                </tr>
+                <tr>
+                    <td>年龄：<input type="text" name="age"> </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="doForward"></td>
+                </tr>
+            </table>
+        </form>
+        <form action="lujun61/doRedirect.do" method="get">
+            <table>
+                <tr>
+                    <td>姓名：<input type="text" name="name"> </td>
+                </tr>
+                <tr>
+                    <td>年龄：<input type="text" name="age"> </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="doRedirect"></td>
+                </tr>
+            </table>
+        </form>
     </center>
 </body>
 </html>
